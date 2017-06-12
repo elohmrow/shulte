@@ -1,0 +1,39 @@
+---
+  - name: Provision an EC2 Instance
+    hosts: local
+    connection: local
+    gather_facts: False
+    tags: provisioning
+    # Necessary Variables for creating/provisioning the EC2 Instance
+    vars:
+      keypairs_location: /Users/awarinner/dev/magnolia/magnoliaEE/unconf2017/aws/keys
+      hosts_file: /Users/awarinner/dev/magnolia/magnoliaEE/unconf2017/ansible/author_hosts
+      # t2.nano for development, should be t2.large for real server
+      instance_type: t2.nano
+      security_group: author-dynamic # Change the security group name here
+      # note: AMI id, not name
+      image: ami-ddc5e3b8 # Change the AMI, from which you want to launch the server
+      region: us-east-2 # Change the Region
+      keypair: ec2-author-dynamic # Change the keypair name
+      count: 1
+
+    # Task that will be used to Launch/Create an EC2 Instance
+    tasks:
+
+      - name: Launch a new EC2 author instance
+        local_action: ec2
+                      group={{ security_group }}
+                      instance_type={{ instance_type }}
+                      image={{ image }}
+                      wait=true
+                      region={{ region }}
+                      keypair={{ keypair }}
+                      count={{ count }}
+        register: ec2
+
+      - name: Add the newly created EC2 instance(s) to the local host group (located inside the directory)
+        local_action: lineinfile
+                      dest="{{ hosts_file }}"
+                      regexp={{ item.public_ip }}
+                      insertafter="[authorservers]" line="{{ item.public_ip }} ansible_user=ec2-user ansible_ssh_private_key_file={{ keypairs_location }}/{{ keypair }}.pem"
+        with_items: "{{ ec2.instances }}"
