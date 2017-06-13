@@ -1,0 +1,4 @@
+https://github.com/nicolasbarbe/magnolia-ansible
+https://git.magnolia-cms.com/projects/SERVICES/repos/ansible-connected-services/browse
+
+https://www.magnolia-cms.com/blogs/nicolas-barbe/detail~&magnolia-devops-series--part-3--automate-your-deployment-on-multiple-hosts~.html
