@@ -1,0 +1,11 @@
+[local]
+localhost
+
+[awsdevservers]
+ec2-13-58-76-55.us-east-2.compute.amazonaws.com ansible_user=ec2-user ansible_ssh_private_key_file=aws/keys/magnolia-author-sample.pem
+
+[authorservers]
+
+[publicservers]
+13.58.89.63 ansible_user=ec2-user ansible_ssh_private_key_file=/Users/awarinner/dev/magnolia/magnoliaEE/unconf2017/aws/keys/ec2-author-dynamic.pem
+13.58.233.176 ansible_user=ec2-user ansible_ssh_private_key_file=/Users/awarinner/dev/magnolia/magnoliaEE/unconf2017/aws/keys/ec2-author-dynamic.pem

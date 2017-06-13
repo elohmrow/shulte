@@ -1,0 +1,30 @@
+---
+  - name: Provision an EC2 instance(s) for Magnolia public instance(s)
+    hosts: local
+    connection: local
+    gather_facts: False
+    tags: provisioning
+
+    # Encrypted variables for AWS access
+    vars_files:
+      - vars/aws.yml
+
+    # Variables for creating/provisioning the EC2 Instance
+    vars:
+      keypairs_location: /Users/awarinner/dev/magnolia/magnoliaEE/unconf2017/aws/keys
+      hosts_file: /Users/awarinner/dev/magnolia/magnoliaEE/unconf2017/ansible/aws_hosts
+      # t2.nano for development, should be t2.large or bigger for real server
+      instance_type: t2.nano
+      security_group: public-dynamic
+      # note: AMI id, not name
+      image: ami-ddc5e3b8
+      region: us-east-2
+      keypair: ec2-author-dynamic
+      servergroup: publicservers
+      count: 2
+
+    # Tasks to create EC2 instance, record it in our host file and wait for SSH to start
+    tasks:
+      - include: tasks/create_ec2_task.yml
+      - include: tasks/add_ec2_host_task.yml
+      - include: tasks/wait_for_ssh_task.yml
