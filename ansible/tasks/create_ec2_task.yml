@@ -1,0 +1,12 @@
+- name: Launch a new EC2 author instance
+  local_action: ec2
+                aws_access_key={{ magnolia_aws_access_key }}
+                aws_secret_key={{ magnolia_aws_secret_key }}
+                group={{ security_group }}
+                instance_type={{ instance_type }}
+                image={{ image }}
+                wait=true
+                region={{ region }}
+                keypair={{ keypair }}
+                count={{ count }}
+  register: ec2
