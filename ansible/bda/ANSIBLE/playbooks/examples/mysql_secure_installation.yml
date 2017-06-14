@@ -1,0 +1,40 @@
+# ansible-playbook playbooks/examples/mysql_secure_installation.yml -i hosts --ask-become-pass
+
+- name: mysql secure installation
+  hosts: publics
+  gather_facts: true
+  tasks:
+    - name: include variables
+      include_vars: vars.yml
+    - name: ensure mysql is running and starts on boot
+      become: yes
+      service: 
+        name: mysql 
+        state: started 
+        enabled: true
+
+    - name: update mysql root password for all root accounts
+      mysql_user: 
+        login_user: root 
+        login_password: ''
+        user: root 
+        host: localhost
+        password: "{{ mysql_password}}"
+
+    - name: ensure anonymous users are not in the database
+      mysql_user: 
+        name: ''
+        user: root
+        host: localhost 
+        state: absent
+        login_user: root
+        login_password: "{{ mysql_password}}"
+
+    - name: remove the test database
+      mysql_db: 
+        name: test 
+        state: absent
+        login_user: root 
+        login_password: "{{ mysql_password }}"
+      with_items:
+        - localhost

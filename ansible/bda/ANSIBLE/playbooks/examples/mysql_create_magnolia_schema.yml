@@ -1,0 +1,14 @@
+# ansible-playbook playbooks/examples/mysql_create_magnolia_schema.yml -i hosts --ask-become-pass
+
+- name: add databases for the public instances
+  hosts: publics
+  gather_facts: true
+  tasks:
+    - name: include variables
+      include_vars: vars.yml
+    - name: add magnoliaPublic database
+      mysql_db: 
+        name: magnoliaPublic 
+        state: present
+        login_user: root 
+        login_password: "{{ mysql_password }}"

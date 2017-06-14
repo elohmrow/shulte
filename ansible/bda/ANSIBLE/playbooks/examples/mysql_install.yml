@@ -1,0 +1,14 @@
+# ansible-playbook playbooks/examples/mysql_install.yml -i hosts --ask-become-pass
+
+- hosts: [publics]
+  tasks:
+    - name: install python libs needed for MySQL
+      yum: 
+        name: MySQL-python 
+        state: latest
+      become: true
+    - name: install MySQL
+      yum: 
+        name: mysql-server
+        state: latest
+      become: true

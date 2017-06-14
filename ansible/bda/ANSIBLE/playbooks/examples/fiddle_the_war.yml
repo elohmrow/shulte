@@ -1,0 +1,33 @@
+# ansible-playbook playbooks/examples/fiddle_the_war.yml -i hosts --ask-become-pass
+
+- hosts: [publics]
+  tasks:
+    - name: include variables
+      include_vars: vars.yml
+    - name: explode the magnoliaPublic.war so we may make changes before using it
+      unarchive:
+        src: "{{ magnolia_path }}magnoliaPublic.war"
+        dest: "{{ magnolia_path }}"
+        copy: no
+    - name: remove the h2 jar, since we want to use mysql 
+      shell: rm "{{ magnolia_path }}WEB-INF/lib/"h2*.jar # using shell module because globbing in file module works only on controller, not nodes
+    - name: in it's place, add the mysql jar
+      # using a pre-fetched, opened jar due to the way we have to get such things from Oracle now ...
+      copy:
+        src: files/mysql-connector-java-5.1.42-bin.jar
+        dest: "{{ magnolia_path }}WEB-INF/lib/"
+    - name: edit magnolia.properties accordingly to override defaults
+      shell: echo "magnolia.repositories.jackrabbit.config=WEB-INF/config/repo-conf/jackrabbit-bundle-mysql-search.xml" >> "{{ magnolia_path }}"WEB-INF/config/magnoliaPublic/magnolia.properties
+    - name: edit jackrabbit-bundle-mysql-search.xml to meet our needs - change db name
+      shell: sed -i -e "s/jdbc:mysql:\/\/localhost:3306\/magnolia/jdbc:mysql:\/\/localhost:3306\/magnoliaPublic/" "{{ magnolia_path }}"WEB-INF/config/repo-conf/jackrabbit-bundle-mysql-search.xml 
+    - name: edit jackrabbit-bundle-mysql-search.xml to meet our needs - set db password
+      shell: sed -i -e "s/param name=\"password\" value=\"password\"/param name=\"password\" value=\""{{ mysql_password}}"\"/"  "{{ magnolia_path }}"WEB-INF/config/repo-conf/jackrabbit-bundle-mysql-search.xml 
+    - name: edit jackrabbit-bundle-mysql-search.xml to meet our needs - point to the 'dir for our repos' from setup_magnolia playbook 
+      shell: sed -i -e "s/\${rep.home}\/repository/{{ magnolia_path }}publicData/" "{{ magnolia_path }}"WEB-INF/config/repo-conf/jackrabbit-bundle-mysql-search.xml
+      # ^ this last one doesn't play nice yet with ansible, but does generally work.  need to look again.
+     - name: re-package the magnoliaPublic.war - remove current war
+       file:
+         src: "{{ magnolia_path }}magnoliaPublic.war"
+         state: absent
+     - name: re-package the magnoliaPublic.war 
+       shell: jar cf magnoliaPublic.war "{{ magnolia_path }}"

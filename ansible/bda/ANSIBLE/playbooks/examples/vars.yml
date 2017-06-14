@@ -1,0 +1,4 @@
+mysql_user: magnolia
+mysql_password: 1qazxsw2
+
+magnolia_path: /home/ghost/ANSIBLE/

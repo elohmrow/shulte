@@ -1,0 +1,46 @@
+# ansible-playbook playbooks/examples/teardown_magnolia.yml -i hosts --ask-become-pass
+# this is the reversi for setup_magnolia.yml
+
+- hosts: [publics]
+  tasks:
+    - name: include variables
+      include_vars: vars.yml
+    - name: remove a magnolia war, from somewhere
+      file:
+        state: absent
+        path: "{{ magnolia_path }}magnoliaPublic.war"
+    - name: remove MySQL
+      yum: 
+        name: mysql-server
+        state: absent
+      become: true
+    - name: remove  python libs needed for MySQL
+      yum: 
+        name: MySQL-python 
+        state: absent
+      become: true
+    - name: remove mysql-community-release
+      yum: 
+        name: mysql-community-release
+        state: absent
+      become: true
+    - name: remove mysql-community-server
+      yum: 
+        name: mysql-community-server
+        state: absent
+      become: true
+    - name: remove mysql-community-common
+      yum: 
+        name: mysql-community-common
+        state: absent
+      become: true
+    - name: remove mysql-community-libs
+      yum: 
+        name: mysql-community-libs
+        state: absent
+      become: true
+    - name: remove mysql-community-client
+      yum: 
+        name: mysql-community-client
+        state: absent
+      become: true

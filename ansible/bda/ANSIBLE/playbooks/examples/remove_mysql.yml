@@ -1,0 +1,14 @@
+# ansible-playbook playbooks/examples/remove_mysql.yml -i hosts --ask-become-pass
+
+- hosts: [publics]
+  tasks:
+    - name: uninstall mysql
+      yum: 
+        name: MySQL-python 
+        state: absent
+      become: true
+    - name: install MySQL
+      yum: 
+        name: mysql-server
+        state: absent
+      become: true

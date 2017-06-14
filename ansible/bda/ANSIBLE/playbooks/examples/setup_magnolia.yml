@@ -1,0 +1,19 @@
+# ansible-playbook playbooks/examples/setup_magnolia.yml -i hosts --ask-become-pass
+
+- hosts: [publics]
+  tasks:
+    - name: include variables
+      include_vars: vars.yml
+    - name: fetch a magnolia war, put it somewhere
+      get_url: 
+        url: https://files.magnolia-cms.com/5.5.4/magnolia-enterprise-pro-webapp-5.5.4.war # could copy from local pre-fetched to speed things up
+        dest: "{{ magnolia_path }}magnoliaPublic.war"
+    - name: create a dir for our repos ... we don't want them in the webapp
+      file:
+        path: "{{ magnolia_path }}publicData"
+        state: directory
+        mode: 0755  
+- include: mysql_install.yml
+- include: mysql_secure_installation.yml
+- include: mysql_create_magnolia_schema.yml
+- include: fiddle_the_war.yml
