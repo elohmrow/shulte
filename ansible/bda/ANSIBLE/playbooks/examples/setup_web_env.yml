@@ -1,0 +1,6 @@
+# ansible-playbook playbooks/examples/setup_web_env.yml -i hosts --ask-become-pass
+
+- hosts: [publics]
+
+- include: java_install.yml
+- include: tomcat_install.yml
