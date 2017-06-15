@@ -1,0 +1,45 @@
+---
+  - name: Back up a specified Magnolia app
+    hosts: "{{ host_group | default('local') }}"
+    connection: local
+    gather_facts: False
+    tags: provisioning
+
+    vars:
+      backup_uri: ".rest/commands/v2/backup/xbackup"
+      magnolia_user: superuser
+      magnolia_password: superuser
+
+    tasks:
+
+        # three separate fact tasks since each depends on the previous
+        #
+        # note: timestamp is declared as a fact so it will not be reevaluated,
+        # between tasks. request_body and backup_location also declared as facts
+        # since they should not change as well.
+        #
+        # note: should be able to create a timestamp without the pipe below by
+        # filtering a format to strftime but the strftime filter is supported in
+        # Ansible 2.4 but we only have 2.3.
+        - set_fact:
+            timestamp: "{{ lookup('pipe', 'date +%Y%m%d%H%M%S') }}"
+        - set_fact:
+            request_body: "{{ lookup('file', '../other/backup.json') | replace('$TIMESTAMP', timestamp) }}"
+        - set_fact:
+            backup_location: "{{ request_body | json_query('backupLocation') }}"
+
+        - name: check if host is reachable
+          wait_for:
+            host: "{{ inventory_hostname }}"
+            port: "{{ hostvars[inventory_hostname]['http_port'] | default(8080) }}"
+
+        - name: back up designated Magnolia instance to local directory
+          uri:
+            url: "http://{{ inventory_hostname }}:{{ hostvars[inventory_hostname]['http_port'] | default(8080) }}/{{ backup_uri }}"
+            method: POST
+            body_format: json
+            body: "{{ request_body }}"
+            user: "{{ magnolia_user }}"
+            password: "{{ magnolia_password }}"
+            force_basic_auth: yes
+            status_code: 200
