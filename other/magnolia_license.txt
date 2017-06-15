@@ -1,4 +1,3 @@
-
 Magnolia Enterprise License for Training
 ----------------------------------------
 License owner: training@magnolia-cms.com
@@ -6,26 +5,3 @@ License expiration: 2017-07-31
 License key:
 LS0tLS1CRUdJTiBQR1AgTUVTU0FHRS0tLS0tClZlcnNpb246IEJDUEcgdjEuNDYKCm93SjRuSnZBeTh6RXhMaDQ4eU9HcFluL3RSbFA3MG5pemszUHk4bkpURTdOSzA2TmVOUDFSRG1rTkZYQnNhQkkKd2RCUXdjRFN5dFRReXNCQXdkazFPRVRCeU1EUW5Lc3N0YWc0TXordjJEYmFWTTlBejBESERFUkdjK1dYNTZVVwoyWllVSldibVplYWxPK1FtcHVmbDUyUW02aWJuRnVzbDUrZHlwVllVWkJZbGxnQjEyb0tNMFRVdzF6VTI1TXJOClR5bk5TUzIyVGMwclNTMHFLTW9zVHVWS1Rja3NBWnVQRU5NdEtNcFBTeTBHV1p1WW80T2t0bU1PQ3hNakV3TWIKS3hQSTRReGNuQUl3ajIzYXhjTFF1alBueVBKcXZSMEJ6RWFYUG5YK3JqVnFXM045bjBmajlYVzE3dHVEWFk2YwpPSldRVXhleWpjRm1nNWlPMjNMeEhKMHZmZTcvVC9uNXJreXROZnN6cGFETDljbkJyczg5SmpvYTlkOCtyYlFNCjdQOVZzM0dma2VvdnRVN2VNKzZhRDZhcGVVY2tXbjlSY2VVVHlkb3RFUzY5NlJaVHhmb1c0UTNidk1WZmVFMm8KbEZ2RVV3Y0FHcm1QQ2c9PQo9Zk9sMQotLS0tLUVORCBQR1AgTUVTU0FHRS0tLS0tCg==
 
-
-User Git
---------
-Username: magnolia_training
-Password: welcome_training
-
-Training Repositories:
-https://magnolia_training:welcome_training@git.magnolia-cms.com/scm/training/training-developer-project.git
-
-
-User Wiki-Training
-------------------
-Username: magnolia_training
-Password: welcome_training
-
-http://wiki.magnolia-cms.com/display/DeveloperTraining55
-
-
-User FTP-Training
------------------
-Host:Êftp.magnolia-cms.com
-User: training
-Password:Êmagnoliatraining2011
