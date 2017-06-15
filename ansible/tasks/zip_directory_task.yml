@@ -1,0 +1,5 @@
+- name: zip specified directory
+  archive:
+    path: "{{ target_path }}"
+    dest: "{{ target_dest }}"
+    format: zip
