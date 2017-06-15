@@ -1,0 +1,4 @@
+- name: elevate privs
+  become: true
+  become_method: sudo
+  shell: whoami
