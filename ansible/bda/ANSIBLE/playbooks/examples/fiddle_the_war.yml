@@ -18,6 +18,7 @@
         dest: "{{ magnolia_path }}WEB-INF/lib/"
     - name: edit magnolia.properties accordingly to override defaults
       shell: echo "magnolia.repositories.jackrabbit.config=WEB-INF/config/repo-conf/jackrabbit-bundle-mysql-search.xml" >> "{{ magnolia_path }}"WEB-INF/config/magnoliaPublic/magnolia.properties
+      # ^ probably could use `lineinfile` for that instead of shell echo :)
     - name: edit jackrabbit-bundle-mysql-search.xml to meet our needs - change db name
       shell: sed -i -e "s/jdbc:mysql:\/\/localhost:3306\/magnolia/jdbc:mysql:\/\/localhost:3306\/magnoliaPublic/" "{{ magnolia_path }}"WEB-INF/config/repo-conf/jackrabbit-bundle-mysql-search.xml 
     - name: edit jackrabbit-bundle-mysql-search.xml to meet our needs - set db password

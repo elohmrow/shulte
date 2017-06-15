@@ -1,0 +1,1 @@
+# the ec2 instances come up with a user who already has sudo privs.  so strictly speaking we don't need this for current exercise
