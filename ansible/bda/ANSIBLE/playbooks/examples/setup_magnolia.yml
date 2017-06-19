@@ -1,6 +1,4 @@
-# ansible-playbook playbooks/examples/setup_magnolia.yml -i hosts --ask-become-pass
-
-- hosts: [publics]
+- hosts: [publicservers]
   tasks:
     - name: include variables
       include_vars: vars.yml

@@ -1,4 +1,15 @@
 mysql_user: magnolia
 mysql_password: 1qazxsw2
-
 magnolia_path: /home/ghost/ANSIBLE/
+keypairs_location: /home/ghost/keys
+hosts_file: /home/ghost/ANSIBLE/playbooks/examples/aws-hosts
+instance_type: t2.micro
+security_group: launch-wizard-1
+image: ami-0932686c
+region: us-east-2
+keypair: bda-aws-unconf2017
+servergroup: publicservers
+count: 1
+mysql_user: root          # should be 'magnolia'
+mysql_password: 1qazxsw2  # should be in vault
+magnolia_path: /home/ec2-user/

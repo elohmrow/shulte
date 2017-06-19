@@ -1,10 +1,8 @@
-# ansible-playbook playbooks/examples/java_install.yml -i hosts --ask-become-pass
-
-# may not be needed ... yum install of tomcat should bring in java ... can test later
-- name: install jdk
-  become: true
-  become_method: su
-  yum: 
-    name: java-1.8.0-openjdk-devel 
-    state: latest
-  # become_user: ec2-user # probably should vars this ...
+- hosts: publicservers
+  gather_facts: true
+  tasks:
+    - name: install jdk
+      become: true
+      yum:
+        name: java-1.8.0-openjdk-devel
+        state: latest
