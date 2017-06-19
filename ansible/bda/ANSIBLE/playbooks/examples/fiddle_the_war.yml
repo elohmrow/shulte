@@ -1,6 +1,4 @@
-# ansible-playbook playbooks/examples/fiddle_the_war.yml -i hosts --ask-become-pass
-
-- hosts: [publics]
+- hosts: [publicservers]
   tasks:
     - name: include variables
       include_vars: vars.yml
@@ -17,18 +15,18 @@
         src: files/mysql-connector-java-5.1.42-bin.jar
         dest: "{{ magnolia_path }}WEB-INF/lib/"
     - name: edit magnolia.properties accordingly to override defaults
-      shell: echo "magnolia.repositories.jackrabbit.config=WEB-INF/config/repo-conf/jackrabbit-bundle-mysql-search.xml" >> "{{ magnolia_path }}"WEB-INF/config/magnoliaPublic/magnolia.properties
+      shell: echo "magnolia.repositories.jackrabbit.config=WEB-INF/config/repo-conf/jackrabbit-bundle-mysql-search.xml" >> "{{ magnolia_path }}WEB-INF/config/magnoliaPublic/magnolia.properties"
       # ^ probably could use `lineinfile` for that instead of shell echo :)
     - name: edit jackrabbit-bundle-mysql-search.xml to meet our needs - change db name
-      shell: sed -i -e "s/jdbc:mysql:\/\/localhost:3306\/magnolia/jdbc:mysql:\/\/localhost:3306\/magnoliaPublic/" "{{ magnolia_path }}"WEB-INF/config/repo-conf/jackrabbit-bundle-mysql-search.xml 
+      shell: sed -i -e "s/jdbc:mysql:\/\/localhost:3306\/magnolia/jdbc:mysql:\/\/localhost:3306\/magnoliaPublic/" "{{ magnolia_path }}WEB-INF/config/repo-conf/jackrabbit-bundle-mysql-search.xml" 
     - name: edit jackrabbit-bundle-mysql-search.xml to meet our needs - set db password
-      shell: sed -i -e "s/param name=\"password\" value=\"password\"/param name=\"password\" value=\""{{ mysql_password}}"\"/"  "{{ magnolia_path }}"WEB-INF/config/repo-conf/jackrabbit-bundle-mysql-search.xml 
+      shell: sed -i -e "s/param name=\"password\" value=\"password\"/param name=\"password\" value=\""{{ mysql_password}}"\"/"  "{{ magnolia_path }}WEB-INF/config/repo-conf/jackrabbit-bundle-mysql-search.xml" 
     - name: edit jackrabbit-bundle-mysql-search.xml to meet our needs - point to the 'dir for our repos' from setup_magnolia playbook 
-      shell: sed -i -e "s/\${rep.home}\/repository/{{ magnolia_path }}publicData/" "{{ magnolia_path }}"WEB-INF/config/repo-conf/jackrabbit-bundle-mysql-search.xml
+      shell: sed -i -e "s/\${rep.home}\/repository/{{ magnolia_path }}publicData/" "{{ magnolia_path }}WEB-INF/config/repo-conf/jackrabbit-bundle-mysql-search.xml"
       # ^ this last one doesn't play nice yet with ansible, but does generally work.  need to look again.
-     - name: re-package the magnoliaPublic.war - remove current war
-       file:
-         src: "{{ magnolia_path }}magnoliaPublic.war"
-         state: absent
-     - name: re-package the magnoliaPublic.war 
-       shell: jar cf magnoliaPublic.war "{{ magnolia_path }}"
+    - name: re-package the magnoliaPublic.war - remove current war
+      file:
+        src: "{{ magnolia_path }}magnoliaPublic.war"
+        state: absent
+    - name: re-package the magnoliaPublic.war
+      shell: jar cf magnoliaPublic.war "{{ magnolia_path }}"

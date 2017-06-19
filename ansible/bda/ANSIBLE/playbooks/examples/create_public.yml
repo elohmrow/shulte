@@ -10,24 +10,14 @@
     vars_files:
       - bda-vars.yml
 
-    # Variables for creating/provisioning the EC2 Instance
-    vars:
-      keypairs_location: /home/ghost/keys
-      hosts_file: /home/ghost/ANSIBLE/playbooks/examples/aws-hosts 
-      # t2.micro (still free!) for development, should be t2.large or bigger for real server
-      instance_type: t2.micro
-      security_group: launch-wizard-1
-      # note: AMI id, not name
-      image: ami-0932686c
-      region: us-east-2
-      keypair: bda-aws-unconf2017
-      servergroup: publicservers
-      count: 1
-
     # Tasks to create EC2 instance, record it in our host file and wait for SSH to start
     tasks:
+      - name: include variables
+        include_vars: vars.yml
       - include: create_ec2.yml
-      #- include: add_ec2_host.yml # nbarbe says don't do this, use 'add_host' instead ...
+      - include: add_ec2_host.yml 
       - include: wait_for_ssh.yml
-      - include: become_root.yml
-      #- include: java_install.yml
+
+  - include: java_install.yml       # install java
+  - include: tomcat_install.yml     # install tomcat
+  - include: setup_magnolia.yml     # add magnolia and some spices

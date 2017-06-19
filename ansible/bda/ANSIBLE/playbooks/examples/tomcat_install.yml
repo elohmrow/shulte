@@ -1,22 +1,4 @@
-# ansible-playbook playbooks/examples/tomcat_install.yml -i hosts --ask-become-pass
-
-# for more control, could do:
-# guided by https://www.digitalocean.com/community/tutorials/how-to-install-apache-tomcat-8-on-centos-7
-###- hosts: [publics]
-###  tasks:
-###    - name: add a tomcat group
-###      group:
-###        name: tomcat
-###        state: present
-###    - name: create a non-privileged tomcat user
-###      user:
-###        name: tomcat
-###        group: tomcat
-###        home: /opt/tomcat
-###        shell: /bin/false
-### ... and etc. 
-
-- hosts: [publics]
+- hosts: [publicservers]
   tasks:
     - name: install tomcat
       yum: 
