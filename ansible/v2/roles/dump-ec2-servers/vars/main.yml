@@ -1,0 +1,5 @@
+#
+inventory_path: "/tmp/dummy_hosts"
+inventory_group: "dummy_servers"
+inventory_keypair_file: "./dummy_keypair.pem"
+#

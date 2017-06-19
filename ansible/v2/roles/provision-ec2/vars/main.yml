@@ -1,0 +1,24 @@
+#
+# AWS specific variables
+#
+
+# EC2 instance type, t2.nano for development or public, should be t2.large or
+# bigger for author server
+aws_instance_type: t2.nano
+# EC2 security group
+aws_security_group: dummy-security-group
+# EC2 image, note: AMI id, not name
+aws_image: ami-ddc5e3b8
+# EC2 region
+aws_region: us-east-2
+# EC2 keypair
+aws_keypair: dummy-keypair
+
+#
+# Other needed variables
+#
+keypairs_location: /tmp
+keypair_file: dummy_keypair_file
+server_group: dummy_server_group
+num_servers: 1
+wait_for_ssh: true

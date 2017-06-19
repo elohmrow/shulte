@@ -1,0 +1,18 @@
+---
+- name: Provision an EC2 instance for a Magnolia author server
+  hosts: local
+  connection: local
+  gather_facts: false
+  roles:
+    - { role: provision-ec2,
+        aws_security_group: "author-dynamic",
+        aws_keypair: "ec2-author-dynamic",
+        server_group: "authorservers",
+        keypairs_location: "/Users/awarinner/dev/magnolia/magnoliaEE/unconf2017/aws/keys",
+        keypair_file: "ec2-author-dynamic.pem"
+      }
+    - { role: dump-ec2-servers,
+        inventory_path: "./aws_hosts",
+        inventory_keypair_file: "/Users/awarinner/dev/magnolia/magnoliaEE/unconf2017/aws/keys/ec2-author-dynamic.pem",
+        inventory_group: "authorservers"
+      }
