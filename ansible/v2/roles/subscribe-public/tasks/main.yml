@@ -1,9 +1,24 @@
-- debug: msg="subscriber_node = {{ subscriber_node | to_json }}"
-
 - name: check if host is reachable
   wait_for:
     host: "{{ inventory_hostname }}"
     port: "{{ hostvars[inventory_hostname]['http_port'] | default(8080) }}"
+
+#- debug: msg="item = {{item}} hostname = {{hostvars[item].inventory_hostname}}"
+#  with_items: "{{ groups.publicservers }}"
+
+#- debug: msg="subscriber_name = {{ subscriber_name }}"
+#  with_items: "{{ groups.publicservers }}"
+
+#- debug: msg="subscriber_node = {{ subscriber_node }}"
+#  with_items: "{{ groups.publicservers }}"
+
+#
+# TODO: check for existing subscriptions
+#
+
+#
+# TODO: turn off existing subscriptions
+#
 
 - name: create top level subscription node
   uri:
@@ -15,3 +30,34 @@
     password: "{{ magnolia_password }}"
     force_basic_auth: yes
     status_code: 200
+  with_items: "{{ groups.publicservers }}"
+
+- name: create subscriptions subnode
+  uri:
+    url: "http://{{ inventory_hostname }}:{{ hostvars[inventory_hostname]['http_port'] | default('default_http_port') }}/{{ create_node_uri }}/{{ subscriber_name }}"
+    method: PUT
+    body_format: json
+    body: "{{ subscriptions_node | to_json }}"
+    user: "{{ magnolia_user }}"
+    password: "{{ magnolia_password }}"
+    force_basic_auth: yes
+    status_code: 200
+  with_items: "{{ groups.publicservers }}"
+
+- name: create all subscription subnodes
+  uri:
+    url: "http://{{ inventory_hostname }}:{{ hostvars[inventory_hostname]['http_port'] | default('default_http_port') }}/{{ create_node_uri }}/{{ subscriber2_name }}/subscriptions"
+    method: PUT
+    body_format: json
+    body: "{{ item[0] | to_json }}"
+    user: "{{ magnolia_user }}"
+    password: "{{ magnolia_password }}"
+    force_basic_auth: yes
+    status_code: 200
+  with_nested:
+    - "{{ subscriptions }}"
+    - "{{ groups.publicservers }}"
+
+#
+# TODO: turn on subscriptions
+#

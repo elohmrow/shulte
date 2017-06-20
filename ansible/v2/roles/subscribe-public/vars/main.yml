@@ -1,23 +1,27 @@
+# Magnolia user/password to use for REST call
 magnolia_user: superuser
 magnolia_password: superuser
+# REST call URI
 create_node_uri: ".rest/nodes/v1/config/server/activation/subscribers"
-subscriber_name: "myPublic"
+# subscriber name construction
+subscriber_prefix: "myPublic"
+subscriber_name: "{{ subscriber_prefix }}-{{ hostvars[item].inventory_hostname | regex_replace('\\.','-') }}-{{ hostvars[item].http_port | default(default_http_port) }}"
+subscriber2_name: "{{ subscriber_prefix }}-{{ hostvars[item[1]].inventory_hostname | regex_replace('\\.','-') }}-{{ hostvars[item[1]].http_port | default(default_http_port) }}"
 context_path: "magnoliaPublic"
-x_hostname: "foobar"
-x_http_port: "80"
 default_http_port: 8080
 #
+# template for top level subscriber node
+#
 subscriber_node: {
-  name: "{{ subscriber_name }}{{ x_http_port | default('default_http_port') }}",
+  name: "{{ subscriber_name }}",
   type: "mgnl:contentNode",
-  path: "/server/activation/subscribers/{{ subscriber_name }}{{ x_http_port | default('default_http_port') }}",
   properties: [
     {
       name: "active",
       type: "String",
       multiple: false,
       values: [
-        "true"
+        "false"
       ]
     },
     {
@@ -33,24 +37,26 @@ subscriber_node: {
       type: "String",
       multiple: false,
       values: [
-        "http://{{ x_hostname }}:{{ x_http_port | default('default_http_port') }}/{{ context_path }}"
+        "http://{{hostvars[item].inventory_hostname}}:{{ hostvars[item].http_port | default(default_http_port) }}/{{ context_path }}"
       ]
     }
   ]
 }
 #
+# template for subscriptions subnode
+#
 subscriptions_node: {
   name: "subscriptions",
   type: "mgnl:contentNode",
-  path: "/server/activation/subscribers/{{ subscriber_name }}{{ x_http_port | default('default_http_port') }}/subscriptions",
   properties: []
 }
+#
+# template for targeted subscriptions subnodes
 #
 subscriptions: [
   {
     name: "exampleSubSiteSubscription",
     type: "mgnl:contentNode",
-    path: "/server/activation/subscribers/{{ subscriber_name }}{{ x_http_port | default('default_http_port') }}/subscriptions/exampleSubSiteSubscription",
     properties: [
       {
         name: "toURI",
@@ -81,7 +87,6 @@ subscriptions: [
   {
     name: "websiteSubscription",
     type: "mgnl:contentNode",
-    path: "/server/activation/subscribers/{{ subscriber_name }}{{ x_http_port | default('default_http_port') }}/subscriptions/websiteSubscription",
     properties: [
       {
         name: "toURI",
@@ -112,7 +117,6 @@ subscriptions: [
   {
     name: "configSubscription",
     type: "mgnl:contentNode",
-    path: "/server/activation/subscribers/{{ subscriber_name }}{{ x_http_port | default('default_http_port') }}/subscriptions/configSubscription",
     properties: [
       {
         name: "toURI",
@@ -143,7 +147,6 @@ subscriptions: [
   {
     name: "usersSubscription",
     type: "mgnl:contentNode",
-    path: "/server/activation/subscribers/{{ subscriber_name }}{{ x_http_port | default('default_http_port') }}/subscriptions/usersSubscription",
     properties: [
       {
         name: "toURI",
@@ -174,7 +177,6 @@ subscriptions: [
   {
     name: "userRolesSubscription",
     type: "mgnl:contentNode",
-    path: "/server/activation/subscribers/{{ subscriber_name }}{{ x_http_port | default('default_http_port') }}/subscriptions/userRolesSubscription",
     properties: [
       {
         name: "toURI",
@@ -205,7 +207,6 @@ subscriptions: [
   {
     name: "userGroupsSubscription",
     type: "mgnl:contentNode",
-    path: "/server/activation/subscribers/{{ subscriber_name }}{{ x_http_port | default('default_http_port') }}/subscriptions/userGroupsSubscription",
     properties: [
       {
         name: "toURI",
@@ -236,7 +237,6 @@ subscriptions: [
   {
     name: "resources",
     type: "mgnl:contentNode",
-    path: "/server/activation/subscribers/{{ subscriber_name }}{{ x_http_port | default('default_http_port') }}/subscriptions/resources",
     properties: [
       {
         name: "repository",
@@ -267,7 +267,6 @@ subscriptions: [
   {
     name: "dms",
     type: "mgnl:contentNode",
-    path: "/server/activation/subscribers/{{ subscriber_name }}{{ x_http_port | default('default_http_port') }}/subscriptions/dms",
     properties: [
       {
         name: "repository",
@@ -298,7 +297,6 @@ subscriptions: [
   {
     name: "dam",
     type: "mgnl:contentNode",
-    path: "/server/activation/subscribers/{{ subscriber_name }}{{ x_http_port | default('default_http_port') }}/subscriptions/dam",
     properties: [
       {
         name: "repository",
@@ -329,7 +327,6 @@ subscriptions: [
   {
     name: "imaging",
     type: "mgnl:contentNode",
-    path: "/server/activation/subscribers/{{ subscriber_name }}{{ x_http_port | default('default_http_port') }}/subscriptions/imaging",
     properties: [
       {
         name: "repository",
@@ -360,7 +357,6 @@ subscriptions: [
   {
     name: "tasks",
     type: "mgnl:contentNode",
-    path: "/server/activation/subscribers/{{ subscriber_name }}{{ x_http_port | default('default_http_port') }}/subscriptions/tasks",
     properties: [
       {
         name: "repository",
@@ -391,7 +387,6 @@ subscriptions: [
   {
     name: "messages",
     type: "mgnl:contentNode",
-    path: "/server/activation/subscribers/{{ subscriber_name }}{{ x_http_port | default('default_http_port') }}/subscriptions/messages",
     properties: [
       {
         name: "repository",
@@ -422,7 +417,6 @@ subscriptions: [
   {
     name: "profiles",
     type: "mgnl:contentNode",
-    path: "/server/activation/subscribers/{{ subscriber_name }}{{ x_http_port | default('default_http_port') }}/subscriptions/profiles",
     properties: [
       {
         name: "repository",
@@ -453,7 +447,6 @@ subscriptions: [
   {
     name: "scripts",
     type: "mgnl:contentNode",
-    path: "/server/activation/subscribers/{{ subscriber_name }}{{ x_http_port | default('default_http_port') }}/subscriptions/scripts",
     properties: [
       {
         name: "repository",
@@ -484,8 +477,6 @@ subscriptions: [
   {
     name: "templates",
     type: "mgnl:contentNode",
-    path: "/server/activation/subscribers/{{ subscriber_name }}{{ x_http_port | default('default_http_port') }}/subscriptions/templates",
-    "identifier": "44b63c4a-0337-46d9-be78-7c095c0df6e4",
     properties: [
       {
         name: "repository",
@@ -516,7 +507,6 @@ subscriptions: [
   {
     name: "contacts",
     type: "mgnl:contentNode",
-    path: "/server/activation/subscribers/{{ subscriber_name }}{{ x_http_port | default('default_http_port') }}/subscriptions/contacts",
     properties: [
       {
         name: "repository",
@@ -547,7 +537,6 @@ subscriptions: [
   {
     name: "googleSitemaps",
     type: "mgnl:contentNode",
-    path: "/server/activation/subscribers/{{ subscriber_name }}{{ x_http_port | default('default_http_port') }}/subscriptions/googleSitemaps",
     properties: [
       {
         name: "repository",
@@ -578,7 +567,6 @@ subscriptions: [
   {
     name: "advancedCache",
     type: "mgnl:contentNode",
-    path: "/server/activation/subscribers/{{ subscriber_name }}{{ x_http_port | default('default_http_port') }}/subscriptions/advancedCache",
     properties: [
       {
         name: "repository",
@@ -609,7 +597,6 @@ subscriptions: [
   {
     name: "forum",
     type: "mgnl:contentNode",
-    path: "/server/activation/subscribers/{{ subscriber_name }}{{ x_http_port | default('default_http_port') }}/subscriptions/forum",
     properties: [
       {
         name: "repository",
@@ -640,7 +627,6 @@ subscriptions: [
   {
     name: "tags",
     type: "mgnl:contentNode",
-    path: "/server/activation/subscribers/{{ subscriber_name }}{{ x_http_port | default('default_http_port') }}/subscriptions/tags",
     properties: [
       {
         name: "repository",
@@ -671,7 +657,6 @@ subscriptions: [
   {
     name: "rss",
     type: "mgnl:contentNode",
-    path: "/server/activation/subscribers/{{ subscriber_name }}{{ x_http_port | default('default_http_port') }}/subscriptions/rss",
     properties: [
       {
         name: "repository",
@@ -702,7 +687,6 @@ subscriptions: [
   {
     name: "workflow",
     type: "mgnl:contentNode",
-    path: "/server/activation/subscribers/{{ subscriber_name }}{{ x_http_port | default('default_http_port') }}/subscriptions/workflow",
     properties: [
       {
         name: "repository",
@@ -733,7 +717,6 @@ subscriptions: [
   {
     name: "category",
     type: "mgnl:contentNode",
-    path: "/server/activation/subscribers/{{ subscriber_name }}{{ x_http_port | default('default_http_port') }}/subscriptions/category",
     properties: [
       {
         name: "repository",
@@ -764,7 +747,6 @@ subscriptions: [
   {
     name: "segments",
     type: "mgnl:contentNode",
-    path: "/server/activation/subscribers/{{ subscriber_name }}{{ x_http_port | default('default_http_port') }}/subscriptions/segments",
     properties: [
       {
         name: "repository",
@@ -795,7 +777,6 @@ subscriptions: [
   {
     name: "personas",
     type: "mgnl:contentNode",
-    path: "/server/activation/subscribers/{{ subscriber_name }}{{ x_http_port | default('default_http_port') }}/subscriptions/personas",
     properties: [
       {
         name: "repository",
@@ -826,7 +807,6 @@ subscriptions: [
   {
     name: "tours",
     type: "mgnl:contentNode",
-    path: "/server/activation/subscribers/{{ subscriber_name }}{{ x_http_port | default('default_http_port') }}/subscriptions/tours",
     properties: [
       {
         name: "repository",
