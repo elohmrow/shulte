@@ -1,0 +1,12 @@
+repository_path: "/repository/dummy"
+backup_location: "{{ backup_root }}"
+configuration_path: "/config/dummy"
+magnolia_user: superuser
+magnolia_password: superuser
+backup_uri: ".rest/commands/v2/backup/backup"
+request_parameters: {
+  repositoryPath: "{{ repository_path }}",
+  backupLocation: "{{ backup_location }}",
+  configurationPath: "{{ configuration_path }}"
+}
+request_body: "{{ request_parameters | to_json }}"

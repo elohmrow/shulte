@@ -1,0 +1,8 @@
+---
+- name: Back up a specified Magnolia server
+  hosts: "{{ host_group | default('local') }}"
+  connection: local
+  gather_facts: False
+
+  roles:
+    - { role: rest-backup }
