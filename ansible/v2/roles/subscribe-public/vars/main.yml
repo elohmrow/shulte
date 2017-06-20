@@ -1,0 +1,857 @@
+magnolia_user: superuser
+magnolia_password: superuser
+create_node_uri: ".rest/nodes/v1/config/server/activation/subscribers"
+subscriber_name: "myPublic"
+context_path: "magnoliaPublic"
+x_hostname: "foobar"
+x_http_port: "80"
+default_http_port: 8080
+#
+subscriber_node: {
+  name: "{{ subscriber_name }}{{ x_http_port | default('default_http_port') }}",
+  type: "mgnl:contentNode",
+  path: "/server/activation/subscribers/{{ subscriber_name }}{{ x_http_port | default('default_http_port') }}",
+  properties: [
+    {
+      name: "active",
+      type: "String",
+      multiple: false,
+      values: [
+        "true"
+      ]
+    },
+    {
+      name: "class",
+      type: "String",
+      multiple: false,
+      values: [
+        "info.magnolia.module.activation.DefaultSubscriber"
+      ]
+    },
+    {
+      name: "URL",
+      type: "String",
+      multiple: false,
+      values: [
+        "http://{{ x_hostname }}:{{ x_http_port | default('default_http_port') }}/{{ context_path }}"
+      ]
+    }
+  ]
+}
+#
+subscriptions_node: {
+  name: "subscriptions",
+  type: "mgnl:contentNode",
+  path: "/server/activation/subscribers/{{ subscriber_name }}{{ x_http_port | default('default_http_port') }}/subscriptions",
+  properties: []
+}
+#
+subscriptions: [
+  {
+    name: "exampleSubSiteSubscription",
+    type: "mgnl:contentNode",
+    path: "/server/activation/subscribers/{{ subscriber_name }}{{ x_http_port | default('default_http_port') }}/subscriptions/exampleSubSiteSubscription",
+    properties: [
+      {
+        name: "toURI",
+        type: "String",
+        multiple: false,
+        values: [
+          "/"
+        ]
+      },
+      {
+        name: "repository",
+        type: "String",
+        multiple: false,
+        values: [
+          "website"
+        ]
+      },
+      {
+        name: "fromURI",
+        type: "String",
+        multiple: false,
+        values: [
+          "/site2"
+        ]
+      }
+    ]
+  },
+  {
+    name: "websiteSubscription",
+    type: "mgnl:contentNode",
+    path: "/server/activation/subscribers/{{ subscriber_name }}{{ x_http_port | default('default_http_port') }}/subscriptions/websiteSubscription",
+    properties: [
+      {
+        name: "toURI",
+        type: "String",
+        multiple: false,
+        values: [
+          "/"
+        ]
+      },
+      {
+        name: "repository",
+        type: "String",
+        multiple: false,
+        values: [
+          "website"
+        ]
+      },
+      {
+        name: "fromURI",
+        type: "String",
+        multiple: false,
+        values: [
+          "/"
+        ]
+      }
+    ]
+  },
+  {
+    name: "configSubscription",
+    type: "mgnl:contentNode",
+    path: "/server/activation/subscribers/{{ subscriber_name }}{{ x_http_port | default('default_http_port') }}/subscriptions/configSubscription",
+    properties: [
+      {
+        name: "toURI",
+        type: "String",
+        multiple: false,
+        values: [
+          "/"
+        ]
+      },
+      {
+        name: "repository",
+        type: "String",
+        multiple: false,
+        values: [
+          "config"
+        ]
+      },
+      {
+        name: "fromURI",
+        type: "String",
+        multiple: false,
+        values: [
+          "/"
+        ]
+      }
+    ]
+  },
+  {
+    name: "usersSubscription",
+    type: "mgnl:contentNode",
+    path: "/server/activation/subscribers/{{ subscriber_name }}{{ x_http_port | default('default_http_port') }}/subscriptions/usersSubscription",
+    properties: [
+      {
+        name: "toURI",
+        type: "String",
+        multiple: false,
+        values: [
+          "/"
+        ]
+      },
+      {
+        name: "repository",
+        type: "String",
+        multiple: false,
+        values: [
+          "users"
+        ]
+      },
+      {
+        name: "fromURI",
+        type: "String",
+        multiple: false,
+        values: [
+          "/"
+        ]
+      }
+    ]
+  },
+  {
+    name: "userRolesSubscription",
+    type: "mgnl:contentNode",
+    path: "/server/activation/subscribers/{{ subscriber_name }}{{ x_http_port | default('default_http_port') }}/subscriptions/userRolesSubscription",
+    properties: [
+      {
+        name: "toURI",
+        type: "String",
+        multiple: false,
+        values: [
+          "/"
+        ]
+      },
+      {
+        name: "repository",
+        type: "String",
+        multiple: false,
+        values: [
+          "userroles"
+        ]
+      },
+      {
+        name: "fromURI",
+        type: "String",
+        multiple: false,
+        values: [
+          "/"
+        ]
+      }
+    ]
+  },
+  {
+    name: "userGroupsSubscription",
+    type: "mgnl:contentNode",
+    path: "/server/activation/subscribers/{{ subscriber_name }}{{ x_http_port | default('default_http_port') }}/subscriptions/userGroupsSubscription",
+    properties: [
+      {
+        name: "toURI",
+        type: "String",
+        multiple: false,
+        values: [
+          "/"
+        ]
+      },
+      {
+        name: "repository",
+        type: "String",
+        multiple: false,
+        values: [
+          "usergroups"
+        ]
+      },
+      {
+        name: "fromURI",
+        type: "String",
+        multiple: false,
+        values: [
+          "/"
+        ]
+      }
+    ]
+  },
+  {
+    name: "resources",
+    type: "mgnl:contentNode",
+    path: "/server/activation/subscribers/{{ subscriber_name }}{{ x_http_port | default('default_http_port') }}/subscriptions/resources",
+    properties: [
+      {
+        name: "repository",
+        type: "String",
+        multiple: false,
+        values: [
+          "resources"
+        ]
+      },
+      {
+        name: "fromURI",
+        type: "String",
+        multiple: false,
+        values: [
+          "/"
+        ]
+      },
+      {
+        name: "toURI",
+        type: "String",
+        multiple: false,
+        values: [
+          "/"
+        ]
+      }
+    ]
+  },
+  {
+    name: "dms",
+    type: "mgnl:contentNode",
+    path: "/server/activation/subscribers/{{ subscriber_name }}{{ x_http_port | default('default_http_port') }}/subscriptions/dms",
+    properties: [
+      {
+        name: "repository",
+        type: "String",
+        multiple: false,
+        values: [
+          "dms"
+        ]
+      },
+      {
+        name: "fromURI",
+        type: "String",
+        multiple: false,
+        values: [
+          "/"
+        ]
+      },
+      {
+        name: "toURI",
+        type: "String",
+        multiple: false,
+        values: [
+          "/"
+        ]
+      }
+    ]
+  },
+  {
+    name: "dam",
+    type: "mgnl:contentNode",
+    path: "/server/activation/subscribers/{{ subscriber_name }}{{ x_http_port | default('default_http_port') }}/subscriptions/dam",
+    properties: [
+      {
+        name: "repository",
+        type: "String",
+        multiple: false,
+        values: [
+          "dam"
+        ]
+      },
+      {
+        name: "fromURI",
+        type: "String",
+        multiple: false,
+        values: [
+          "/"
+        ]
+      },
+      {
+        name: "toURI",
+        type: "String",
+        multiple: false,
+        values: [
+          "/"
+        ]
+      }
+    ]
+  },
+  {
+    name: "imaging",
+    type: "mgnl:contentNode",
+    path: "/server/activation/subscribers/{{ subscriber_name }}{{ x_http_port | default('default_http_port') }}/subscriptions/imaging",
+    properties: [
+      {
+        name: "repository",
+        type: "String",
+        multiple: false,
+        values: [
+          "imaging"
+        ]
+      },
+      {
+        name: "fromURI",
+        type: "String",
+        multiple: false,
+        values: [
+          "/"
+        ]
+      },
+      {
+        name: "toURI",
+        type: "String",
+        multiple: false,
+        values: [
+          "/"
+        ]
+      }
+    ]
+  },
+  {
+    name: "tasks",
+    type: "mgnl:contentNode",
+    path: "/server/activation/subscribers/{{ subscriber_name }}{{ x_http_port | default('default_http_port') }}/subscriptions/tasks",
+    properties: [
+      {
+        name: "repository",
+        type: "String",
+        multiple: false,
+        values: [
+          "tasks"
+        ]
+      },
+      {
+        name: "fromURI",
+        type: "String",
+        multiple: false,
+        values: [
+          "/"
+        ]
+      },
+      {
+        name: "toURI",
+        type: "String",
+        multiple: false,
+        values: [
+          "/"
+        ]
+      }
+    ]
+  },
+  {
+    name: "messages",
+    type: "mgnl:contentNode",
+    path: "/server/activation/subscribers/{{ subscriber_name }}{{ x_http_port | default('default_http_port') }}/subscriptions/messages",
+    properties: [
+      {
+        name: "repository",
+        type: "String",
+        multiple: false,
+        values: [
+          "messages"
+        ]
+      },
+      {
+        name: "fromURI",
+        type: "String",
+        multiple: false,
+        values: [
+          "/"
+        ]
+      },
+      {
+        name: "toURI",
+        type: "String",
+        multiple: false,
+        values: [
+          "/"
+        ]
+      }
+    ]
+  },
+  {
+    name: "profiles",
+    type: "mgnl:contentNode",
+    path: "/server/activation/subscribers/{{ subscriber_name }}{{ x_http_port | default('default_http_port') }}/subscriptions/profiles",
+    properties: [
+      {
+        name: "repository",
+        type: "String",
+        multiple: false,
+        values: [
+          "profiles"
+        ]
+      },
+      {
+        name: "fromURI",
+        type: "String",
+        multiple: false,
+        values: [
+          "/"
+        ]
+      },
+      {
+        name: "toURI",
+        type: "String",
+        multiple: false,
+        values: [
+          "/"
+        ]
+      }
+    ]
+  },
+  {
+    name: "scripts",
+    type: "mgnl:contentNode",
+    path: "/server/activation/subscribers/{{ subscriber_name }}{{ x_http_port | default('default_http_port') }}/subscriptions/scripts",
+    properties: [
+      {
+        name: "repository",
+        type: "String",
+        multiple: false,
+        values: [
+          "scripts"
+        ]
+      },
+      {
+        name: "fromURI",
+        type: "String",
+        multiple: false,
+        values: [
+          "/"
+        ]
+      },
+      {
+        name: "toURI",
+        type: "String",
+        multiple: false,
+        values: [
+          "/"
+        ]
+      }
+    ]
+  },
+  {
+    name: "templates",
+    type: "mgnl:contentNode",
+    path: "/server/activation/subscribers/{{ subscriber_name }}{{ x_http_port | default('default_http_port') }}/subscriptions/templates",
+    "identifier": "44b63c4a-0337-46d9-be78-7c095c0df6e4",
+    properties: [
+      {
+        name: "repository",
+        type: "String",
+        multiple: false,
+        values: [
+          "templates"
+        ]
+      },
+      {
+        name: "fromURI",
+        type: "String",
+        multiple: false,
+        values: [
+          "/"
+        ]
+      },
+      {
+        name: "toURI",
+        type: "String",
+        multiple: false,
+        values: [
+          "/"
+        ]
+      }
+    ]
+  },
+  {
+    name: "contacts",
+    type: "mgnl:contentNode",
+    path: "/server/activation/subscribers/{{ subscriber_name }}{{ x_http_port | default('default_http_port') }}/subscriptions/contacts",
+    properties: [
+      {
+        name: "repository",
+        type: "String",
+        multiple: false,
+        values: [
+          "contacts"
+        ]
+      },
+      {
+        name: "fromURI",
+        type: "String",
+        multiple: false,
+        values: [
+          "/"
+        ]
+      },
+      {
+        name: "toURI",
+        type: "String",
+        multiple: false,
+        values: [
+          "/"
+        ]
+      }
+    ]
+  },
+  {
+    name: "googleSitemaps",
+    type: "mgnl:contentNode",
+    path: "/server/activation/subscribers/{{ subscriber_name }}{{ x_http_port | default('default_http_port') }}/subscriptions/googleSitemaps",
+    properties: [
+      {
+        name: "repository",
+        type: "String",
+        multiple: false,
+        values: [
+          "googleSitemaps"
+        ]
+      },
+      {
+        name: "fromURI",
+        type: "String",
+        multiple: false,
+        values: [
+          "/"
+        ]
+      },
+      {
+        name: "toURI",
+        type: "String",
+        multiple: false,
+        values: [
+          "/"
+        ]
+      }
+    ]
+  },
+  {
+    name: "advancedCache",
+    type: "mgnl:contentNode",
+    path: "/server/activation/subscribers/{{ subscriber_name }}{{ x_http_port | default('default_http_port') }}/subscriptions/advancedCache",
+    properties: [
+      {
+        name: "repository",
+        type: "String",
+        multiple: false,
+        values: [
+          "advancedCache"
+        ]
+      },
+      {
+        name: "fromURI",
+        type: "String",
+        multiple: false,
+        values: [
+          "/"
+        ]
+      },
+      {
+        name: "toURI",
+        type: "String",
+        multiple: false,
+        values: [
+          "/"
+        ]
+      }
+    ]
+  },
+  {
+    name: "forum",
+    type: "mgnl:contentNode",
+    path: "/server/activation/subscribers/{{ subscriber_name }}{{ x_http_port | default('default_http_port') }}/subscriptions/forum",
+    properties: [
+      {
+        name: "repository",
+        type: "String",
+        multiple: false,
+        values: [
+          "forum"
+        ]
+      },
+      {
+        name: "fromURI",
+        type: "String",
+        multiple: false,
+        values: [
+          "/"
+        ]
+      },
+      {
+        name: "toURI",
+        type: "String",
+        multiple: false,
+        values: [
+          "/"
+        ]
+      }
+    ]
+  },
+  {
+    name: "tags",
+    type: "mgnl:contentNode",
+    path: "/server/activation/subscribers/{{ subscriber_name }}{{ x_http_port | default('default_http_port') }}/subscriptions/tags",
+    properties: [
+      {
+        name: "repository",
+        type: "String",
+        multiple: false,
+        values: [
+          "tags"
+        ]
+      },
+      {
+        name: "fromURI",
+        type: "String",
+        multiple: false,
+        values: [
+          "/"
+        ]
+      },
+      {
+        name: "toURI",
+        type: "String",
+        multiple: false,
+        values: [
+          "/"
+        ]
+      }
+    ]
+  },
+  {
+    name: "rss",
+    type: "mgnl:contentNode",
+    path: "/server/activation/subscribers/{{ subscriber_name }}{{ x_http_port | default('default_http_port') }}/subscriptions/rss",
+    properties: [
+      {
+        name: "repository",
+        type: "String",
+        multiple: false,
+        values: [
+          "rss"
+        ]
+      },
+      {
+        name: "fromURI",
+        type: "String",
+        multiple: false,
+        values: [
+          "/"
+        ]
+      },
+      {
+        name: "toURI",
+        type: "String",
+        multiple: false,
+        values: [
+          "/"
+        ]
+      }
+    ]
+  },
+  {
+    name: "workflow",
+    type: "mgnl:contentNode",
+    path: "/server/activation/subscribers/{{ subscriber_name }}{{ x_http_port | default('default_http_port') }}/subscriptions/workflow",
+    properties: [
+      {
+        name: "repository",
+        type: "String",
+        multiple: false,
+        values: [
+          "workflow"
+        ]
+      },
+      {
+        name: "fromURI",
+        type: "String",
+        multiple: false,
+        values: [
+          "/"
+        ]
+      },
+      {
+        name: "toURI",
+        type: "String",
+        multiple: false,
+        values: [
+          "/"
+        ]
+      }
+    ]
+  },
+  {
+    name: "category",
+    type: "mgnl:contentNode",
+    path: "/server/activation/subscribers/{{ subscriber_name }}{{ x_http_port | default('default_http_port') }}/subscriptions/category",
+    properties: [
+      {
+        name: "repository",
+        type: "String",
+        multiple: false,
+        values: [
+          "category"
+        ]
+      },
+      {
+        name: "fromURI",
+        type: "String",
+        multiple: false,
+        values: [
+          "/"
+        ]
+      },
+      {
+        name: "toURI",
+        type: "String",
+        multiple: false,
+        values: [
+          "/"
+        ]
+      }
+    ]
+  },
+  {
+    name: "segments",
+    type: "mgnl:contentNode",
+    path: "/server/activation/subscribers/{{ subscriber_name }}{{ x_http_port | default('default_http_port') }}/subscriptions/segments",
+    properties: [
+      {
+        name: "repository",
+        type: "String",
+        multiple: false,
+        values: [
+          "segments"
+        ]
+      },
+      {
+        name: "fromURI",
+        type: "String",
+        multiple: false,
+        values: [
+          "/"
+        ]
+      },
+      {
+        name: "toURI",
+        type: "String",
+        multiple: false,
+        values: [
+          "/"
+        ]
+      }
+    ]
+  },
+  {
+    name: "personas",
+    type: "mgnl:contentNode",
+    path: "/server/activation/subscribers/{{ subscriber_name }}{{ x_http_port | default('default_http_port') }}/subscriptions/personas",
+    properties: [
+      {
+        name: "repository",
+        type: "String",
+        multiple: false,
+        values: [
+          "personas"
+        ]
+      },
+      {
+        name: "fromURI",
+        type: "String",
+        multiple: false,
+        values: [
+          "/"
+        ]
+      },
+      {
+        name: "toURI",
+        type: "String",
+        multiple: false,
+        values: [
+          "/"
+        ]
+      }
+    ]
+  },
+  {
+    name: "tours",
+    type: "mgnl:contentNode",
+    path: "/server/activation/subscribers/{{ subscriber_name }}{{ x_http_port | default('default_http_port') }}/subscriptions/tours",
+    properties: [
+      {
+        name: "repository",
+        type: "String",
+        multiple: false,
+        values: [
+          "tours"
+        ]
+      },
+      {
+        name: "fromURI",
+        type: "String",
+        multiple: false,
+        values: [
+          "/"
+        ]
+      },
+      {
+        name: "toURI",
+        type: "String",
+        multiple: false,
+        values: [
+          "/"
+        ]
+      }
+    ]
+  }
+]

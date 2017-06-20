@@ -1,0 +1,8 @@
+---
+- name: Subscribe designated Magnolia public instances to a Magnolia author
+  hosts: "{{ host_group | default('local') }}"
+  connection: local
+  gather_facts: False
+
+  roles:
+    - { role: subscribe-public }

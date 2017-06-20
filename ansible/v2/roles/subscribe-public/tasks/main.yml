@@ -1,0 +1,17 @@
+- debug: msg="subscriber_node = {{ subscriber_node | to_json }}"
+
+- name: check if host is reachable
+  wait_for:
+    host: "{{ inventory_hostname }}"
+    port: "{{ hostvars[inventory_hostname]['http_port'] | default(8080) }}"
+
+- name: create top level subscription node
+  uri:
+    url: "http://{{ inventory_hostname }}:{{ hostvars[inventory_hostname]['http_port'] | default('default_http_port') }}/{{ create_node_uri }}"
+    method: PUT
+    body_format: json
+    body: "{{ subscriber_node | to_json }}"
+    user: "{{ magnolia_user }}"
+    password: "{{ magnolia_password }}"
+    force_basic_auth: yes
+    status_code: 200
